@@ -1,0 +1,48 @@
+---
+title: "University of Sri Jayewardenepura, Sri Lanka"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+runtime: shiny
+css: styles.css
+---
+
+<style>                     
+.navbar {
+  background-color:#fed976;
+  border-color:#fed976;
+}
+.navbar-brand {
+color:black!important;
+}
+</style> 
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+
+```
+
+### Chart C
+
+```{r}
+
+```
+
