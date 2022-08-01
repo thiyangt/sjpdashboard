@@ -4,6 +4,7 @@ output:
   flexdashboard::flex_dashboard:
     orientation: columns
     vertical_layout: fill
+    logo: logo/unilogo.png
 runtime: shiny
 css: styles.css
 ---
@@ -12,10 +13,22 @@ css: styles.css
 .navbar {
   background-color:#fed976;
   border-color:#fed976;
+  font-weight: 900;
 }
 .navbar-brand {
-color:black!important;
+color:#800000!important;
 }
+
+.navbar-logo img {
+    position: absolute;
+    right: 0px;
+    width: 50px;
+    height: 50px;
+    border-radius: 70%;
+    overflow: hidden;
+    margin-top: 2px;
+}
+
 </style> 
 
 ```{r setup, include=FALSE}
