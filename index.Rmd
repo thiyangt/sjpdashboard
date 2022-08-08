@@ -33,32 +33,83 @@ color:#800000!important;
 
 ```{r setup, include=FALSE}
 library(flexdashboard)
+library(patchwork)
+library(stringr)
 ```
 
-# Overview
+# Internal Undergraduate 
 
-Column {data-width=650}
+Column {data-width=300}
 -----------------------------------------------------------------------
 
-### Chart A
+### New registrations (as at 31 December 2021)
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(plotly)
+order1 <- c("Management Studies & Commerce", "Humanities & Social Sciences", "Applied Sciences", "Technology", "Medical Sciences", "Engineering", "Allied Health Sciences")
+faculty_names <- factor(c("Humanities & Social Sciences", "Applied Sciences", "Management Studies & Commerce", "Medical Sciences", "Technology", "Engineering", "Allied Health Sciences"), levels=rev(order1))
+
+
+new_registrations <- c(984, 875, 1348, 193, 491, 186, 155)
+total_registration <- c(3568, 2678, 4966, 1177, 1438,540, 395)
+df1 <- tibble(faculty_names,
+              new_registrations,
+                  total_registration)
+df12 <- pivot_longer(df1, 2:3, "Type", "Count") 
+#p1 <- ggplot(df12, aes(y=value, x=reorder(faculty_names, value), fill=Type)) + geom_bar(stat="identity") +  scale_fill_manual(values = c("#1b9e77","#d95f02")) + labs(x="", y="Number of students") + theme(legend.position="bottom", axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+#ggplotly(p1)
+p1.1 <- ggplot(df1, aes(y=new_registrations, x=reorder(faculty_names, new_registrations))) + geom_bar(stat="identity") + labs(x="", y="Number of students") + theme(legend.position="bottom", axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+ggplotly(p1.1)
+
 
 ```
 
-Column {data-width=350}
+### Total number of registered (as at December 2021)
+
+
+```{r}
+p1.2 <- ggplot(df1, aes(y=total_registration, x=reorder(faculty_names, total_registration))) + geom_bar(stat="identity") + labs(x="", y="Number of students") + theme(legend.position="bottom", axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+ggplotly(p1.2)
+```
+
+Column {data-width=300}
 -----------------------------------------------------------------------
 
-### Chart B
+### Total number of registered by year (as at 31 December 2021)
+
 
 ```{r}
-
+# Internal undergraduate enrolment (Total number of registered) as at 31st December (2017-2021)
+y2017 <- c(3296, 2021, 4804, 804, 642, 241, 333)
+y2018 <- c(3341, 2251, 4794, 938, 642, 362, 280)
+y2019 <- c(3458, 2222, 4659, 948, 947, 458, 290)
+y2020 <- c(3462, 2464, 4843, 948, 947, 458, 290)
+y2021 <- c(3568, 2678, 4966, 1177, 1438, 540, 395)
+df2 <- tibble(faculty_names, y2017, y2018, y2019, y2020, y2021)
+df21 <- pivot_longer(df2, 2:6, "Year", "Value")
+p2 <- ggplot(df21, aes(x=faculty_names, y=value,  fill=Year)) + geom_bar(stat="identity", position="dodge") +  scale_fill_manual(values=rev(c("#253494", "#2c7fb8", "#41b6c4", "#7fcdbb", "#c7e9b4")))+theme( axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + labs(x="", y="Number of students") + scale_x_discrete(labels = function(x) str_wrap(x, width = 10))
+ggplotly(p2)
 ```
 
-### Chart C
+
+
+### New registrations by year 
 
 ```{r}
-
+# Internal undergraduate enrolment (Total number of registered) as at 31st December (2017-2021)
+y2017 <- c(3296, 2021, 4804, 804, 642, 241, 333)
+y2018 <- c(3341, 2251, 4794, 938, 642, 362, 280)
+y2019 <- c(3458, 2222, 4659, 948, 947, 458, 290)
+y2020 <- c(3462, 2464, 4843, 948, 947, 458, 290)
+y2021 <- c(3568, 2678, 4966, 1177, 1438, 540, 395)
+df2 <- tibble(faculty_names, y2017, y2018, y2019, y2020, y2021)
+df21 <- pivot_longer(df2, 2:6, "Year", "Value")
+p3 <- ggplot(df21, aes(x=faculty_names, y=value,  fill=Year)) + geom_bar(stat="identity", position="dodge") +  scale_fill_manual(values=rev(c("#253494", "#2c7fb8", "#41b6c4", "#7fcdbb", "#c7e9b4"))) + theme(legend.position="bottom", axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + labs(x="", y="Number of students") + scale_x_discrete(labels = function(x) str_wrap(x, width = 10))
+ggplotly(p3)
 ```
+
+
+
 
 # About Us

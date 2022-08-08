@@ -5,9 +5,9 @@ account: srilanka
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 6721099
-bundleId: 6151653
+bundleId: 6151759
 url: https://srilanka.shinyapps.io/sjpdashboard/
-when: 1659316737.22907
-lastSyncTime: 1659316737.22908
+when: 1659320191.60302
+lastSyncTime: 1659320191.60305
 asMultiple: FALSE
 asStatic: FALSE
