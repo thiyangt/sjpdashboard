@@ -11,12 +11,12 @@ css: styles.css
 
 <style>                     
 .navbar {
-  background-color:#fed976;
-  border-color:#fed976;
+  background-color:#800000;
+  border-color:#800000;
   font-weight: 900;
 }
 .navbar-brand {
-color:#800000!important;
+color:#fed976!important;
 }
 
 .navbar-logo img {
@@ -83,8 +83,9 @@ y2019 <- c(3458, 2222, 4659, 948, 947, 458, 290)
 y2020 <- c(3462, 2464, 4843, 948, 947, 458, 290)
 y2021 <- c(3568, 2678, 4966, 1177, 1438, 540, 395)
 df2 <- tibble(faculty_names, y2017, y2018, y2019, y2020, y2021)
+colnames(df2) <- c("Faculty", "2017", "2018", "2019", "2020", "2021")
 df21 <- pivot_longer(df2, 2:6, "Year", "Value")
-p2 <- ggplot(df21, aes(x=faculty_names, y=value,  fill=Year)) + geom_bar(stat="identity", position="dodge") +  scale_fill_manual(values=rev(vec1p))+theme( axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + labs(x="", y="Number of students") + scale_x_discrete(labels = function(x) str_wrap(x, width = 10))
+p2 <- ggplot(df21, aes(x=Faculty, y=value,  fill=Year)) + geom_bar(stat="identity", position="dodge") +  scale_fill_manual(values=rev(vec2g))+theme( axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + labs(x="", y="Total number of students") + scale_x_discrete(labels = function(x) str_wrap(x, width = 10))
 ggplotly(p2)
 ```
 
@@ -113,8 +114,9 @@ y1718 <- c(942, 743, 1223, 161, 318, 121, 74)
 y1819 <- c(939, 781, 1216, 160, 323, 120, 88)
 y1920 <- c(984, 875, 1348, 193, 491, 186, 155)
 df3 <- tibble(faculty_names, y1516, y1617, y1718, y1819, y1920)
+colnames(df3) <- c("Faculty", "2015/2016", "2016/2017", "2017/2018", "2018/2019", "2019/2020")
 df31 <- pivot_longer(df3, 2:6, "Year", "Value")
-p2 <- ggplot(df31, aes(x=faculty_names, y=value,  fill=Year)) + geom_bar(stat="identity", position="dodge") +  scale_fill_manual(values=rev(vec2g))+theme( axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + labs(x="", y="Number of students") + scale_x_discrete(labels = function(x) str_wrap(x, width = 10))
+p2 <- ggplot(df31, aes(x=Faculty, y=value,  fill=Year)) + geom_bar(stat="identity", position="dodge") +  scale_fill_manual(values=rev(vec2g))+theme( axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + labs(x="", y="New registrations") + scale_x_discrete(labels = function(x) str_wrap(x, width = 10))
 ggplotly(p2)
 ```
 
@@ -233,6 +235,7 @@ df62 <- pivot_longer(df6, 2:8, "Category", "value")
 df62$Category <- factor(df62$Category, levels = c("Senior Professor", "Professor", "Associate Professor", "Senior Lecturer Gr. I", "Senior Lecturer Gr. II", "Lecturer", "Lecturer Probation"))
 col <- c("#1b9e77", "#d95f02", "#7570b3",
          "#e7298a", "#66a61e", "#e6ab02", "#a6761d")
+extra <- c("#edf8b1", "#c7e9b4", "#7fcdbb", "#41b6c4", "#1d91c0", "#225ea8", "#0c2c84")
 p9 <- ggplot(df62, aes(x=Faculty, y=value,  fill=Category)) + geom_bar(stat="identity", position="dodge") +  scale_fill_viridis_d() +  scale_x_discrete(labels = function(x) str_wrap(x, width = 40)) + labs(x="", y="Number of academics")
 ggplotly(p9)
 ```
@@ -251,12 +254,23 @@ colnames(dfqual) <- c("Year", "First Degree & PG Dip.", "Masters", "M.Phil", "MD
 dfqual2 <- pivot_longer(dfqual, 2:6, "Degree", "value")
 dfqual2$Degree <- factor(dfqual2$Degree, levels = c("First Degree & PG Dip.", "Masters", "M.Phil", "MD/MS", "Doctoral Degrees"))
 
-p10 <- ggplot(dfqual2, aes(x=Year, y=value,  fill=Degree)) + geom_bar(stat="identity", position="dodge") + scale_fill_viridis_d(option = "plasma") + labs( y="Number of academics")
+p10 <- ggplot(dfqual2, aes(x=Year, y=value,  fill=Degree)) + geom_bar(stat="identity", position="dodge") + scale_fill_manual(values = rev(vec4))  + labs( y="Number of academics")
 ggplotly(p10)
 
 ```
 
 
 # About Us
+
+Visit: https://www.sjp.ac.lk/#
+
+Contact: 
+
+University of Sri Jayewardenepura,
+Gangodawila,
+Nugegoda,
+Sri Lanka.
+
+
 
 
