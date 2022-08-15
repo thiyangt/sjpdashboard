@@ -198,10 +198,12 @@ second_lower <- c(203, 123, 282, 53, 107, 38, 19)
 pass <- c(121, 255, 479, 61, 84, 13, 33)
 total_graduated <- c(835, 631, 1185, 154, 289, 103, 76)
 df5 <- tibble(faculty_names, first_class, second_upper, second_lower, pass)
-df5 <- df5 %>% arrange(pass)
+colnames(df5) <- c("faculty_names", "First class", "Second upper", "Second lower", "Pass")
+df5 <- df5 %>% arrange(Pass)
 df52 <- pivot_longer(df5, 2:5, "Type", "value")
-df52$Type <- factor(df52$Type, levels = c("first_class", "second_upper", "second_lower", "pass"))
-p7 <- ggplot(df52, aes(x=faculty_names, y=value,  fill=Type)) + geom_bar(stat="identity", position="dodge") +  scale_x_discrete(labels = function(x) str_wrap(x, width = 40)) + labs(x="", y="Number of students")
+df52$Type <- factor(df52$Type, levels = c("First class", "Second upper", "Second lower", "Pass"))
+p7 <- ggplot(df52, aes(x=faculty_names, y=value,  fill=Type)) + geom_bar(stat="identity", position="dodge") + 
+scale_fill_manual(values=rev(vec2g))+scale_x_discrete(labels = function(x) str_wrap(x, width = 40)) + labs(x="", y="Number of students")
 p8 <- ggplot(df52, aes(x=faculty_names, y=value,  fill=Type)) + geom_bar(stat="identity", position="fill") +scale_y_continuous(labels=scales::percent)  +  scale_fill_manual(values=rev(vec2g))+scale_x_discrete(labels = function(x) str_wrap(x, width = 40))+ labs(x="", y="Percentage of students")
 ggplotly(p7)
 ```
@@ -262,8 +264,6 @@ ggplotly(p10)
 
 # About Us
 
-Visit: https://www.sjp.ac.lk/#
-
 Contact: 
 
 University of Sri Jayewardenepura,
@@ -271,6 +271,7 @@ Gangodawila,
 Nugegoda,
 Sri Lanka.
 
-
-
+```{r, out.width=1620, out.height=1000, out.extra='style="border: 1px solid #464646;" allowfullscreen="" allow="autoplay"'}
+knitr::include_url("https://www.sjp.ac.lk/#")
+```
 
