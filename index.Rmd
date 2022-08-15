@@ -264,14 +264,20 @@ ggplotly(p10)
 
 # About Us
 
-Contact: 
+*Contact:* 
 
-University of Sri Jayewardenepura,
+[University of Sri Jayewardenepura,
 Gangodawila,
 Nugegoda,
-Sri Lanka.
+Sri Lanka.](https://www.sjp.ac.lk/)
 
 ```{r, out.width=1620, out.height=1000, out.extra='style="border: 1px solid #464646;" allowfullscreen="" allow="autoplay"'}
-knitr::include_url("https://www.sjp.ac.lk/#")
+library(leaflet)
+m <- leaflet() %>%
+  addTiles() %>%  # Add default OpenStreetMap map tiles
+  addMarkers(lat=6.852852212556074, lng=79.90316617280814, popup="University of Sri Jayewardenepura, Nugegoda, Sri Lanka")
+m 
 ```
+
+
 
