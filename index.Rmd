@@ -35,14 +35,16 @@ color:#800000!important;
 library(flexdashboard)
 library(patchwork)
 library(stringr)
+library(knitr)
+library(viridis)
+library(viridisLite)
 ```
 
-# Internal Undergraduate 
+# Internal Undergraduates 
 
 Column {data-width=300}
 -----------------------------------------------------------------------
 
-### New registrations (as at 31 December 2021)
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 library(tidyverse)
@@ -59,57 +61,202 @@ df1 <- tibble(faculty_names,
 df12 <- pivot_longer(df1, 2:3, "Type", "Count") 
 #p1 <- ggplot(df12, aes(y=value, x=reorder(faculty_names, value), fill=Type)) + geom_bar(stat="identity") +  scale_fill_manual(values = c("#1b9e77","#d95f02")) + labs(x="", y="Number of students") + theme(legend.position="bottom", axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 #ggplotly(p1)
-p1.1 <- ggplot(df1, aes(y=new_registrations, x=reorder(faculty_names, new_registrations))) + geom_bar(stat="identity") + labs(x="", y="Number of students") + theme(legend.position="bottom", axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-ggplotly(p1.1)
+
 
 
 ```
 
-### Total number of registered (as at December 2021)
 
+
+### Figure 1.1: Total number of registered by year (as at 31 December 2021)
+
+
+```{r, fig.height=10}
+# Internal undergraduate enrolment (Total number of registered) as at 31st December (2017-2021)
+vec1p <- c("#0D0887FF", "#6A00A8FF", "#B12A90FF", "#E16462FF", "#FCA636FF", "#F0F921FF")
+vec2g <- c("#FDE725FF", "#7AD151FF", "#22A884FF", "#2A788EFF", "#414487FF", "#440154FF")
+vec3 <- c("#fed976", "#feb24c", "#fd8d3c", "#f03b20", "#bd0026")
+vec4 <- c("#253494", "#2c7fb8", "#41b6c4", "#7fcdbb", "#c7e9b4")
+y2017 <- c(3296, 2021, 4804, 804, 642, 241, 333)
+y2018 <- c(3341, 2251, 4794, 938, 642, 362, 280)
+y2019 <- c(3458, 2222, 4659, 948, 947, 458, 290)
+y2020 <- c(3462, 2464, 4843, 948, 947, 458, 290)
+y2021 <- c(3568, 2678, 4966, 1177, 1438, 540, 395)
+df2 <- tibble(faculty_names, y2017, y2018, y2019, y2020, y2021)
+df21 <- pivot_longer(df2, 2:6, "Year", "Value")
+p2 <- ggplot(df21, aes(x=faculty_names, y=value,  fill=Year)) + geom_bar(stat="identity", position="dodge") +  scale_fill_manual(values=rev(vec1p))+theme( axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + labs(x="", y="Number of students") + scale_x_discrete(labels = function(x) str_wrap(x, width = 10))
+ggplotly(p2)
+```
+
+### Table 1.1: Total number of registered by year (as at 31 December 2021)
 
 ```{r}
-p1.2 <- ggplot(df1, aes(y=total_registration, x=reorder(faculty_names, total_registration))) + geom_bar(stat="identity") + labs(x="", y="Number of students") + theme(legend.position="bottom", axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-ggplotly(p1.2)
+df2 <- df2 %>% arrange(y2021)
+colnames(df2) <- c("Faculty name", "2017", "2018", "2019", "2020", "2021")
+knitr::kable(df2)
+```
+
+
+Column {data-width=300}
+-----------------------------------------------------------------------
+
+
+
+### Figure 1.2: New registrations by year (as at 31 December 2021) 
+
+
+```{r, fig.height=10}
+# Internal undergraduate enrolment (New registrations) as at 31st December (2017-2021)
+y1516 <- c(837, 628, 1215, 151, 321, 121, 70)
+y1617 <- c(877, 698, 1213, 160, 321, 120, 71)
+y1718 <- c(942, 743, 1223, 161, 318, 121, 74)
+y1819 <- c(939, 781, 1216, 160, 323, 120, 88)
+y1920 <- c(984, 875, 1348, 193, 491, 186, 155)
+df3 <- tibble(faculty_names, y1516, y1617, y1718, y1819, y1920)
+df31 <- pivot_longer(df3, 2:6, "Year", "Value")
+p2 <- ggplot(df31, aes(x=faculty_names, y=value,  fill=Year)) + geom_bar(stat="identity", position="dodge") +  scale_fill_manual(values=rev(vec2g))+theme( axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + labs(x="", y="Number of students") + scale_x_discrete(labels = function(x) str_wrap(x, width = 10))
+ggplotly(p2)
+```
+
+### Table 1.2: New registrations by year (as at 31 December 2021)
+
+```{r}
+df3 <- df3 %>% arrange(y1920)
+colnames(df3) <- c("Faculty name", "2015/2016", "2016/2017", "2017/2018", "2018/2019", "2019/2020")
+knitr::kable(df3)  
+```
+
+# External undergraduate students and Postgraduate student registration
+
+Column {data-width=300}
+-----------------------------------------------------------------------
+
+
+### Figure 2.1 External Undergraduate Student Registrations as at 31 December 2021
+
+```{r}
+Degree <- c("Bachelor of Arts (General) External Degree", "Bachelor of Humanities and Social Science             (General) External Degree", "Bachelor of Social Science (General) External Degree in Environmental and Development Studies", "Bachelor of Social Science (General) External Degree in Environmental and Development Studies", "B.Sc. Business Administration  (General) External Degree", "B.Sc. Management (Public) (General) External Degree", "B.Com (General) External Degree", "B.Sc. Business Studies (General) External Degee", "Total")
+Count <- c(69536, 6550, 637, 2906, 8616, 9503, 12909, 422, 111079)
+Percentage <- round((Count/111079)*100, 2)
+df4 <- tibble(Degree, Count, Percentage)
+p4 <- ggplot(df4[1:6,], aes(x=reorder(Degree, Count), y=Count)) +
+  geom_bar(stat="identity", col="#800026", fill="#800026") + labs(y="Number of students", x="") + theme( axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + scale_x_discrete(labels = function(x) str_wrap(x, width = 40))
+p4
+```
+
+
+### Table 2.1 External Undergraduate Student Registrations as at 31 December 2021
+
+```{r}
+df4 <- df4 %>% arrange(Percentage)
+colnames(df4) <- c("Degree", "Total number of students registered", "Percentage (%)")
+kable(df4)
 ```
 
 Column {data-width=300}
 -----------------------------------------------------------------------
 
-### Total number of registered by year (as at 31 December 2021)
 
+
+### Figure 2.1 Postgraduate Student Registrations as at 31 December 2021
 
 ```{r}
-# Internal undergraduate enrolment (Total number of registered) as at 31st December (2017-2021)
-y2017 <- c(3296, 2021, 4804, 804, 642, 241, 333)
-y2018 <- c(3341, 2251, 4794, 938, 642, 362, 280)
-y2019 <- c(3458, 2222, 4659, 948, 947, 458, 290)
-y2020 <- c(3462, 2464, 4843, 948, 947, 458, 290)
-y2021 <- c(3568, 2678, 4966, 1177, 1438, 540, 395)
-df2 <- tibble(faculty_names, y2017, y2018, y2019, y2020, y2021)
-df21 <- pivot_longer(df2, 2:6, "Year", "Value")
-p2 <- ggplot(df21, aes(x=faculty_names, y=value,  fill=Year)) + geom_bar(stat="identity", position="dodge") +  scale_fill_manual(values=rev(c("#253494", "#2c7fb8", "#41b6c4", "#7fcdbb", "#c7e9b4")))+theme( axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + labs(x="", y="Number of students") + scale_x_discrete(labels = function(x) str_wrap(x, width = 10))
-ggplotly(p2)
+Degreepg <- factor(c("PG Certificate", "PG Diploma", "Master Degrees", "M.Phil Degree", "Doctoral Degree", "Total"), levels=c("PG Certificate", "PG Diploma", "Master Degrees", "M.Phil Degree", "Doctoral Degree", "Total"))
+
+new <- c(15, 45, 402, 19, 58, 539)
+Percentagenew <- round((new/539)*100, 2)
+total <- c(57, 199, 2200, 197, 210, 2863)
+Percentagetotal <- round((total/2863)*100, 2)
+df4 <- tibble(Degreepg, new, Percentagenew, total, Percentagetotal)
+ggplot(df4[1:5,], aes(x=Degreepg, y=new)) +
+  geom_bar(stat="identity", col="#feb24c", fill="#feb24c") + labs(y="Number of students", x="") + theme( axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + scale_x_discrete(labels = function(x) str_wrap(x, width = 50))
 ```
 
 
-
-### New registrations by year 
+### Table 2.1 Postgraduate Student Registrations as at 31 December 2021
 
 ```{r}
-# Internal undergraduate enrolment (Total number of registered) as at 31st December (2017-2021)
-y2017 <- c(3296, 2021, 4804, 804, 642, 241, 333)
-y2018 <- c(3341, 2251, 4794, 938, 642, 362, 280)
-y2019 <- c(3458, 2222, 4659, 948, 947, 458, 290)
-y2020 <- c(3462, 2464, 4843, 948, 947, 458, 290)
-y2021 <- c(3568, 2678, 4966, 1177, 1438, 540, 395)
-df2 <- tibble(faculty_names, y2017, y2018, y2019, y2020, y2021)
-df21 <- pivot_longer(df2, 2:6, "Year", "Value")
-p3 <- ggplot(df21, aes(x=faculty_names, y=value,  fill=Year)) + geom_bar(stat="identity", position="dodge") +  scale_fill_manual(values=rev(c("#253494", "#2c7fb8", "#41b6c4", "#7fcdbb", "#c7e9b4"))) + theme(legend.position="bottom", axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + labs(x="", y="Number of students") + scale_x_discrete(labels = function(x) str_wrap(x, width = 10))
-ggplotly(p3)
+
+colnames(df4) <- c("Degree", "Number of new registrations", "Percentage (%)" ,"Total number of students registered", "Percentage (%)")
+kable(df4)
+```
+
+# Graduate output details
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+### Figure 3.1:  Graduate output details (Internal first degree) - 2021: Student counts
+
+```{r}
+
+first_class <- c(59, 49, 151, 7, 13, 8, 6)
+second_upper <- c(452, 204, 273, 33, 107, 38, 19)
+second_lower <- c(203, 123, 282, 53, 107, 38, 19)
+pass <- c(121, 255, 479, 61, 84, 13, 33)
+total_graduated <- c(835, 631, 1185, 154, 289, 103, 76)
+df5 <- tibble(faculty_names, first_class, second_upper, second_lower, pass)
+df5 <- df5 %>% arrange(pass)
+df52 <- pivot_longer(df5, 2:5, "Type", "value")
+df52$Type <- factor(df52$Type, levels = c("first_class", "second_upper", "second_lower", "pass"))
+p7 <- ggplot(df52, aes(x=faculty_names, y=value,  fill=Type)) + geom_bar(stat="identity", position="dodge") +  scale_x_discrete(labels = function(x) str_wrap(x, width = 40)) + labs(x="", y="Number of students")
+p8 <- ggplot(df52, aes(x=faculty_names, y=value,  fill=Type)) + geom_bar(stat="identity", position="fill") +scale_y_continuous(labels=scales::percent)  +  scale_fill_manual(values=rev(vec2g))+scale_x_discrete(labels = function(x) str_wrap(x, width = 40))+ labs(x="", y="Percentage of students")
+ggplotly(p7)
 ```
 
 
+### Figure 3.2:  Graduate output details (Internal first degree) - 2021: Cummulative percentage
+
+```{r}
+ggplotly(p8)
+```
+
+# Academic staff
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+### Figure 4.1:  Faculty-wise academic staff information (as at 31st December 2021)
+
+```{r}
+SP <- c(7, 11, 12, 11, NA, NA, NA)
+P <- c(28, 31, 35, 29, 1, NA, 2)
+AP <- c(4, NA, 2, 3, NA, NA, NA)
+SL1 <- c(47, 27, 46, 22, 6, 3, 5)
+SL2 <- c(27, 56, 51, 24, 45, 19, 17)
+L <- c(8, 12, 18, 10, 5, 1, 2)
+LP <- c(19, 17, 24, 16, 9, NA, 10)
+
+df6 <- tibble(faculty_names, SP, P, AP, SL1, SL2, L, LP)
+colnames(df6) <- c("Faculty", "Senior Professor", "Professor", "Associate Professor", "Senior Lecturer Gr. I", "Senior Lecturer Gr. II", "Lecturer", "Lecturer Probation")
+df62 <- pivot_longer(df6, 2:8, "Category", "value")
+df62$Category <- factor(df62$Category, levels = c("Senior Professor", "Professor", "Associate Professor", "Senior Lecturer Gr. I", "Senior Lecturer Gr. II", "Lecturer", "Lecturer Probation"))
+col <- c("#1b9e77", "#d95f02", "#7570b3",
+         "#e7298a", "#66a61e", "#e6ab02", "#a6761d")
+p9 <- ggplot(df62, aes(x=Faculty, y=value,  fill=Category)) + geom_bar(stat="identity", position="dodge") +  scale_fill_viridis_d() +  scale_x_discrete(labels = function(x) str_wrap(x, width = 40)) + labs(x="", y="Number of academics")
+ggplotly(p9)
+```
+
+### Academic staff qualifications: 2018 - 2021
+
+```{r}
+Year <- 2018:2021
+FD <- c(74, 87, 73, 72)
+Masters <- c(147, 147, 149, 156)
+MPhil <- c(42, 42, 43, 41)
+MDMS <- c(61, 56, 63, 65)
+PhD <- c(296, 309, 361, 400)
+dfqual <- tibble(Year, FD, Masters, MPhil, MDMS, PhD)
+colnames(dfqual) <- c("Year", "First Degree & PG Dip.", "Masters", "M.Phil", "MD/MS", "Doctoral Degrees")
+dfqual2 <- pivot_longer(dfqual, 2:6, "Degree", "value")
+dfqual2$Degree <- factor(dfqual2$Degree, levels = c("First Degree & PG Dip.", "Masters", "M.Phil", "MD/MS", "Doctoral Degrees"))
+
+p10 <- ggplot(dfqual2, aes(x=Year, y=value,  fill=Degree)) + geom_bar(stat="identity", position="dodge") + scale_fill_viridis_d(option = "plasma") + labs( y="Number of academics")
+ggplotly(p10)
+
+```
 
 
 # About Us
+
+
